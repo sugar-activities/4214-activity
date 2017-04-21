@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    		xmlns:lxslt="http://xml.apache.org/xslt">
+
+<xsl:output method="html"/>
+
+<xsl:template match="/PERIODIC_TABLE">
+
+
+<html>
+<head>
+
+<script language="javascript" type="text/javascript" src="jquery.js"></script> 
+<script language="javascript" type="text/javascript" src="xocom.js"></script> 
+<script language="javascript" type="text/javascript" src="datos.js"></script> 
+<script language="javascript" type="text/javascript" src="utiles.js"></script> 
+
+<script language="javascript" type="text/javascript">
+
+	mostrado = false;
+
+</script>
+
+<style type="text/css">
+    
+    body {
+		background-color:#666666;
+ 	    font:Sans-serif; 
+    }
+
+	h1 {
+		width:100%;
+		text-align:center;
+	    font-size:30px; 
+		color:white;
+	}
+
+	h2 {
+		width:90%;
+		text-align:left;
+	    font-size:14px; 
+		color:white;
+	}
+
+
+	td {
+		border: 2px;
+		-moz-border-radius:5px;	
+		font-size:10px;
+	}
+
+	#pop { 
+	   z-index:2; 
+	   position:absolute; 
+	   border: 2px solid black; 
+	   text-align:center; 
+	   background:#bbbbbb; 
+	   left:200px;
+	   top:60px;		
+	   -moz-border-radius:5px;	
+	   color:black;	
+	} 
+
+	#textPopup { 
+	   text-align:left; 
+	   font-size:12px; 
+	   margin:10px;	
+	} 
+
+	#wiki { 
+	   z-index:2; 
+	   position:absolute; 
+	   border: 2px solid black; 
+	   text-align:center; 
+	   background:#bbbbbb; 
+	   left:200px;
+	   top:190px;		
+	   -moz-border-radius:5px;	
+	   color:black;	
+	} 
+
+	#wikiBody { 
+	   width:900px;
+	   height:560px;	
+	   background:white; 
+	   margin:10px;	
+	} 
+
+	#misNotas { 
+	   z-index:2; 
+	   position:absolute; 
+	   border: 2px solid black; 
+	   text-align:left; 
+	   background:#bbbbbb; 
+	   left:200px;
+	   top:190px;		
+	   -moz-border-radius:5px;	
+	   color:black;	
+	} 
+
+	#textMisNotas { 
+	   width:900px;
+	   height:560px;	
+	   background:white; 
+	   margin:10px;	
+	} 
+
+	#cerrar { 
+	   float:right; 
+	   margin-right:5px; 
+	   cursor:pointer; 
+	   font-size:12px; 
+	   font-weight:bold; 
+	   width:12px; 
+	   position:relative; 
+	   margin-top:-1px; 
+	   text-align:center; 
+	}
+
+
+</style>
+
+
+</head>
+<body>
+
+	<form name="elementData">	
+	<div id="pop" style="display:none"> 
+	   <div id="cerrar" onclick="cerrar()">X</div>
+	   <div id="textPopup">
+	   </div>		 
+		<input type="hidden" id="elementName" name="elementName"/>
+    	<textarea cols="80" rows="5" name="editedText" id="editedText"></textarea>
+	</div>
+
+	<div id="wiki" style="display:none"> 
+	   <div id="cerrar" onclick="cerrarWiki()">X</div>
+	   <iframe id="wikiBody">
+	   </iframe>		 
+	</div>
+
+	<div id="misNotas" style="display:none"> 
+	   <div id="cerrar" onclick="cerrarMisNotas()">X</div>
+	   <div id="textMisNotas">
+	   </div>		 
+	</div>
+
+	</form>
+
+		<h1>Tabla de los elementos</h1>
+		<br/>
+
+        <table  width="100%">
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &lt; 3]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 2 ][ATOMIC_NUMBER &lt; 11 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 10 ][ATOMIC_NUMBER &lt; 19 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 18 ][ATOMIC_NUMBER &lt; 37 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 36 ][ATOMIC_NUMBER &lt; 55 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 54 ][ATOMIC_NUMBER &lt; 58 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 71 ][ATOMIC_NUMBER &lt; 87 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 86 ][ATOMIC_NUMBER &lt; 90 ]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        </table>
+
+        <h2>Serie Lantanidos</h2>
+
+        <table width="100%" >
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 56][ATOMIC_NUMBER &lt; 72]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        </table>
+
+        <h2>Serie Actinidos</h2>
+
+        <table width="100%" >
+        <tr>
+        <xsl:apply-templates select="/PERIODIC_TABLE/ATOM[ATOMIC_NUMBER &gt; 88]">
+                <xsl:sort select="ATOMIC_NUMBER" data-type="number" />
+        </xsl:apply-templates>
+        </tr>
+        </table>
+
+		<a href="javascript:verMisNotas()">Mis Notas</a>
+
+</body>
+</html>
+
+
+</xsl:template>
+
+<xsl:template match="/PERIODIC_TABLE/ATOM">
+<xsl:variable name="settings" select="document('../../datos/settings.xml')/settings"/>
+        <td bordercolor="black">
+	<xsl:choose>
+	    <xsl:when test="COLOR=0">
+		<xsl:attribute name="bgcolor">#cccccc</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=1">
+		<xsl:attribute name="bgcolor">#ccccff</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=2">
+		<xsl:attribute name="bgcolor">#99ff99</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=3">
+		<xsl:attribute name="bgcolor">#ffff99</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=4">
+		<xsl:attribute name="bgcolor">#ffcc99</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=5">
+		<xsl:attribute name="bgcolor">#ff9966</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=6">
+		<xsl:attribute name="bgcolor">#cc99ff</xsl:attribute>
+	    </xsl:when>
+	    <xsl:when test="COLOR=7">
+		<xsl:attribute name="bgcolor">#007000</xsl:attribute>
+	    </xsl:when>
+
+
+
+	</xsl:choose>
+        <div align="center">
+		<br/>
+        <a>
+        <xsl:attribute name="href">javascript:mostrar('<xsl:value-of select="SYMBOL"/>','<xsl:value-of select="NOMBRE"/>','<xsl:value-of select="NAME"/>','<xsl:value-of select="ATOMIC_WEIGHT"/>','<xsl:value-of select="ATOMIC_NUMBER"/>','<xsl:value-of select="WIKIPEDIA"/>')</xsl:attribute>
+        <xsl:value-of select="NOMBRE"/>
+        </a>
+        </div>
+		<br/>
+        <font size="1">
+        <xsl:value-of select="ATOMIC_NUMBER"/>
+        </font>
+
+        </td>
+        <xsl:if test='ATOMIC_NUMBER=1'>
+                <td colspan='16'></td>
+        </xsl:if>
+        <xsl:if test='ATOMIC_NUMBER=4'>
+                <td colspan='10'></td>
+        </xsl:if>
+        <xsl:if test='ATOMIC_NUMBER=12'>
+                <td colspan='10'></td>
+        </xsl:if>
+
+
+</xsl:template>
+
+
+
+</xsl:stylesheet>
+
+

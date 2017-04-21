@@ -1,0 +1,7 @@
+[Activity]
+name = ElementsActivity
+service_name = com.Eq.Elements
+class = ElementsActivity.ElementsActivity
+icon = activity-elements
+activity_version = 2
+show_launcher = yes

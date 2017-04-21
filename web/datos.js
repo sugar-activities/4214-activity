@@ -1,0 +1,1 @@
+textos = new Array(new Array('Cromo','metal  brillante'),new Array('Hidrogeno','hidrogeno'),new Array('Boro','Como borocoto'),new Array('Aluminio','Element metalico liviano muy comun'));
